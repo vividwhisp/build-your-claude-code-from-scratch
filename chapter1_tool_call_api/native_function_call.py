@@ -4,7 +4,7 @@ import json, requests
 OPENROUTER_API_KEY = "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"
 MODEL = "anthropic/claude-sonnet-4"
 
-# 初始化客户端
+# Initialize client
 client = OpenAI(
   base_url="https://openrouter.ai/api/v1",
   api_key=OPENROUTER_API_KEY
@@ -15,7 +15,7 @@ messages = [
   {"role": "user", "content": "What are the titles of some James Joyce books?"}
 ]
 
-# 定义工具接口 Schema
+# Define tool interface schema
 tools = [
   {
     "type": "function",
@@ -37,7 +37,7 @@ tools = [
   }
 ]
 
-# 向模型发起首次请求
+# Send the first request to the model
 request_1 = {
   "model": MODEL,
   "messages": messages,
@@ -62,7 +62,7 @@ print("response_1:", response_1)
 
 
 
-# 以下伪函数示范对 Project Gutenberg 的查询实现
+# The following pseudo-function demonstrates how to query Project Gutenberg
 def search_gutenberg_books(search_terms):
     search_query = " ".join(search_terms)
     resp = requests.get("https://gutendex.com/books", params={"search": search_query})
@@ -75,7 +75,7 @@ def search_gutenberg_books(search_terms):
         })
     return results
 
-# 处理 LLM 返回的工具调用请求
+# Process the tool call request returned by the LLM
 messages.append(response_1)
 for tool_call in response_1.tool_calls:
     args = json.loads(tool_call.function.arguments)
