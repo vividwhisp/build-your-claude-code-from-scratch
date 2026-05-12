@@ -15,13 +15,13 @@ class APIClient:
     
     def __init__(self):
         """
-        单例模式初始化API客户端，使用环境变量配置
+        Initialize the API client as a singleton using environment variable configuration.
         """
         if not self._initialized:
-            # 加载.env文件
+            # Load the .env file
             load_dotenv()
             
-            # 从环境变量获取配置，如果不存在则抛出错误
+            # Get configuration from environment variables and raise an error if missing
             self.api_key = self._get_required_env_var("OPENAI_API_KEY")
             self.base_url = self._get_required_env_var("OPENAI_BASE_URL") 
             self.model = self._get_required_env_var("OPENAI_MODEL")
@@ -34,16 +34,16 @@ class APIClient:
     
     def _get_required_env_var(self, var_name: str) -> str:
         """
-        获取必需的环境变量，如果不存在则抛出错误
+        Get a required environment variable and raise an error if it is missing.
         
         Args:
-            var_name: 环境变量名称
+            var_name: The name of the environment variable
             
         Returns:
-            环境变量的值
+            The value of the environment variable
             
         Raises:
-            ValueError: 当环境变量不存在或为空时
+            ValueError: If the environment variable is missing or empty
         """
         value = os.getenv(var_name)
         if not value:
@@ -52,13 +52,13 @@ class APIClient:
     
     def get_completion(self, request_params: Dict[str, Any]):
         """
-        发送聊天完成请求并返回消息
+        Send a chat completion request and return the message.
         
         Args:
-            request_params: 请求参数字典，包含model, messages等
+            request_params: A dictionary of request parameters, including model, messages, etc.
             
         Returns:
-            返回AI助手的回复消息对象
+            The AI assistant's response message object.
         """
         request_params["model"] = self.model
         try:
